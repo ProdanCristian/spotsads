@@ -1,12 +1,12 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import { ChartAreaInteractive } from "@/components/chart-area-interactive"
-import { DataTable } from "@/components/data-table"
-import { SectionCards } from "@/components/section-cards"
+import { AppSidebar } from "@/components/layout/app-sidebar"
+import { ChartAreaInteractive } from "@/components/charts/chart-area-interactive"
+import { DataTable } from "@/components/dashboard/data-table"
+import { SectionCards } from "@/components/dashboard/section-cards"
 import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
-import { HeadDashboard } from "@/components/head-dashboard"
+import { HeadDashboard } from "@/components/dashboard/head-dashboard"
 import { auth } from "@/app/api/auth/[...nextauth]/route"
 import { redirect } from "next/navigation"
 

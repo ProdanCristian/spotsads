@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/layout/site-header";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function Home() {
   const session = await auth();
@@ -29,11 +30,11 @@ export default async function Home() {
                   SpotsAds helps creators monetize their content while enabling businesses to reach their target audience at competitive rates.
                 </p>
                 <div className="flex flex-col gap-4 sm:flex-row">
-                  <Button size="lg" className="bg-primary">
-                    Start as Creator
+                  <Button size="lg" className="bg-primary" asChild>
+                    <Link href="/login?userType=Creator">Start as Creator</Link>
                   </Button>
-                  <Button size="lg" variant="outline">
-                    Advertise with Us
+                  <Button size="lg" variant="outline" asChild>
+                    <Link href="/login?userType=Advertiser">Advertise with Us</Link>
                   </Button>
                 </div>
               </div>
@@ -139,7 +140,9 @@ export default async function Home() {
                 Join thousands of creators and businesses already using SpotsAds to grow their audience and revenue.
               </p>
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
-                <Button size="lg">Create Free Account</Button>
+                <Button size="lg" asChild>
+                  <Link href="/login">Create Free Account</Link>
+                </Button>
                 <Button size="lg" variant="outline">
                   Contact Sales
                 </Button>

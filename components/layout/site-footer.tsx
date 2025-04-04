@@ -1,6 +1,5 @@
 import Link from "next/link"
-import { Logo } from "@/components/logo"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { Logo } from "@/components/layout/logo"
 
 export function SiteFooter() {
     return (
@@ -10,7 +9,6 @@ export function SiteFooter() {
                     <div className="space-y-4">
                         <div className="flex gap-4">
                             <Logo height={40} />
-                            <ThemeToggle />
                         </div>
                         <p className="text-sm text-muted-foreground">
                             Connect creators with brands for mutually beneficial partnerships.

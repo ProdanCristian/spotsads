@@ -1,10 +1,10 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Russo_One } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { AuthProvider } from "@/components/auth-provider"
-import { ThemeMeta } from "@/components/theme-meta"
+import { ThemeProvider } from "@/components/layout/theme-provider"
+import { AuthProvider } from "@/components/auth/auth-provider"
+import { ThemeMeta } from "@/components/layout/theme-meta"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,15 +25,6 @@ const russoOne = Russo_One({
 export const metadata: Metadata = {
   title: "SpotsAds",
   description: "SpotsAds",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" }
-  ],
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -41,6 +32,11 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+}
 
 export default function RootLayout({
   children,

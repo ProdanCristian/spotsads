@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Logo } from "@/components/logo"
+import { Logo } from "@/components/layout/logo"
 import { useState, useEffect } from "react"
 import { signIn } from "next-auth/react"
 import { useSearchParams } from "next/navigation"
@@ -20,6 +20,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
+  const [userType, setUserType] = useState<"Creator" | "Advertiser" | "">("")
   const searchParams = useSearchParams()
 
   useEffect(() => {
@@ -27,15 +28,27 @@ export function LoginForm({
     if (errorParam) {
       setError("There was a problem with your Google sign-in. Please try again.")
     }
+
+    // Set userType from URL param if available
+    const userTypeParam = searchParams.get("userType") as "Creator" | "Advertiser" | null
+    if (userTypeParam && (userTypeParam === "Creator" || userTypeParam === "Advertiser")) {
+      setUserType(userTypeParam)
+    }
   }, [searchParams])
 
   const handleGoogleSignIn = async () => {
+    if (!userType) {
+      setError("Please select whether you're a Creator or Advertiser")
+      return
+    }
+
     setIsLoading(true)
     setError("")
 
     try {
       await signIn("google", {
-        callbackUrl: "/dashboard"
+        callbackUrl: "/dashboard",
+        userType: userType
       })
     } catch {
       setError("Something went wrong with Google sign-in")
@@ -48,7 +61,40 @@ export function LoginForm({
       <div className="flex justify-center">
         <Logo className="w-32" />
       </div>
-      <Card className="bg-muted">
+
+      <div className="flex flex-col items-center gap-4 mb-2">
+        <h3 className="text-lg font-medium">I am a:</h3>
+        <div className="flex gap-4 w-full max-w-[320px]">
+          <Button
+            type="button"
+            variant={userType === "Creator" ? "default" : "outline"}
+            onClick={() => setUserType("Creator")}
+            className={cn(
+              "flex-1 h-16 text-lg transition-all",
+              userType === "Creator"
+                ? "shadow-lg scale-105"
+                : "hover:border-primary/50"
+            )}
+          >
+            Creator
+          </Button>
+          <Button
+            type="button"
+            variant={userType === "Advertiser" ? "default" : "outline"}
+            onClick={() => setUserType("Advertiser")}
+            className={cn(
+              "flex-1 h-16 text-lg transition-all",
+              userType === "Advertiser"
+                ? "shadow-lg scale-105"
+                : "hover:border-primary/50"
+            )}
+          >
+            Advertiser
+          </Button>
+        </div>
+      </div>
+
+      <Card className="bg-muted shadow-md">
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome</CardTitle>
           <CardDescription>
@@ -61,9 +107,12 @@ export function LoginForm({
               <Button
                 type="button"
                 variant="outline"
-                className="w-full"
+                className={cn(
+                  "w-full border-2 transition-all",
+                  userType ? "hover:bg-primary/10" : "opacity-70"
+                )}
                 onClick={handleGoogleSignIn}
-                disabled={isLoading}
+                disabled={isLoading || !userType}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5 mr-2">
                   <path
@@ -77,7 +126,7 @@ export function LoginForm({
                 We&apos;ll automatically create an account if you don&apos;t have one yet
               </p>
             </div>
-            {error && <div className="text-red-500 text-sm">{error}</div>}
+            {error && <div className="text-red-500 text-sm text-center">{error}</div>}
           </div>
         </CardContent>
       </Card>

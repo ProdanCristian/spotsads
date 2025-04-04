@@ -1,8 +1,8 @@
 import Link from "next/link"
-import { Logo } from "@/components/logo"
+import { Logo } from "@/components/layout/logo"
 import { Button } from "@/components/ui/button"
 import { LogIn } from "lucide-react"
-
+import { ThemeToggle } from "@/components/layout/theme-toggle"
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
@@ -30,6 +30,7 @@ export function SiteHeader() {
               Login
             </Link>
           </Button>
+          <ThemeToggle />
         </div>
       </div>
     </header>
